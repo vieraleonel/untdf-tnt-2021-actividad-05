@@ -1,3 +1,4 @@
+import 'package:actividad_05/models/comics.dart';
 import 'package:actividad_05/models/thumbnail.dart';
 import 'package:actividad_05/models/marvel_response.dart';
 import 'package:actividad_05/services/marvel_api_service.dart';
@@ -7,7 +8,7 @@ import 'package:flutter/material.dart';
 class ComicList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<MarvelResponse>(
+    return FutureBuilder<MarvelResponse<Comic>>(
       future: MarvelApiService().getAllComics(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {

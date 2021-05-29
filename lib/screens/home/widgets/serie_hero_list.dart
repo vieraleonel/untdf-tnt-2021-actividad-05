@@ -1,4 +1,5 @@
 import 'package:actividad_05/models/marvel_response.dart';
+import 'package:actividad_05/models/serie.dart';
 import 'package:actividad_05/screens/home/widgets/serie_hero.dart';
 import 'package:actividad_05/services/marvel_api_service.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ class SerieHeroList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         height: 70,
-        child: FutureBuilder<MarvelResponse>(
+        child: FutureBuilder<MarvelResponse<Serie>>(
           future: MarvelApiService().getAllSeries(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {

@@ -1,3 +1,4 @@
+import 'package:actividad_05/models/character.dart';
 import 'package:actividad_05/models/thumbnail.dart';
 import 'package:actividad_05/models/marvel_response.dart';
 import 'package:actividad_05/services/marvel_api_service.dart';
@@ -9,7 +10,7 @@ class CharacterHeroList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         height: thumbnailSizeDimensions[ThumbnailSize.LANDSCAPE_XLARGE].height,
-        child: FutureBuilder<MarvelResponse>(
+        child: FutureBuilder<MarvelResponse<Character>>(
           future: MarvelApiService().getAllCharacters(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
