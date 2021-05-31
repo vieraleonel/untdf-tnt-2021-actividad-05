@@ -1,4 +1,5 @@
 import 'package:actividad_05/models/character.dart';
+import 'package:actividad_05/routes.dart';
 import 'package:actividad_05/screens/home/widgets/character_hero_implementation.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,10 @@ class CharacterHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CharacterHeroImplementation(character: character);
+    return GestureDetector(
+        child: CharacterHeroImplementation(character: character),
+        onTap: () => Navigator.pushNamed(
+            context, ROUTE_NAMES['CHARACTER_DETAIL'],
+            arguments: character));
   }
 }

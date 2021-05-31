@@ -1,3 +1,4 @@
+import 'package:actividad_05/routes.dart';
 import 'package:actividad_05/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(),
-      home: HomeScreen(),
+      routes: routes,
+      initialRoute: ROUTE_NAMES['HOME'],
     );
   }
 }
