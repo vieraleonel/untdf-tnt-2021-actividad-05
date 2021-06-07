@@ -1,20 +1,28 @@
 import 'package:actividad_05/routes.dart';
-import 'package:actividad_05/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 
-void main() {
+void main() async {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  ValueNotifier<GraphQLClient> client = ValueNotifier(
+    GraphQLClient(
+      link: Link.from([HttpLink('https://graphql.anilist.co')]),
+      cache: GraphQLCache(store: InMemoryStore()),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(),
-      routes: routes,
-      initialRoute: ROUTE_NAMES['HOME'],
-    );
+    return GraphQLProvider(
+        client: client,
+        child: MaterialApp(
+          title: 'MyComAni',
+          theme: ThemeData(primaryColor: Colors.red),
+          routes: routes,
+          initialRoute: ROUTE_NAMES['HOME'],
+        ));
   }
 }

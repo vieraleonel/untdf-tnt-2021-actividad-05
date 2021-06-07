@@ -5,7 +5,7 @@ class Attribution extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.0),
+      margin: EdgeInsets.only(top: 10.0, bottom: 45.0),
       child: Text(
         MarvelApiService.MARVEL_ATTRIBUTION,
         textAlign: TextAlign.center,
