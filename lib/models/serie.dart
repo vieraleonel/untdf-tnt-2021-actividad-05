@@ -46,7 +46,7 @@ class Serie {
   factory Serie.fromJson(Map<String, dynamic> json) => Serie(
         id: json["id"],
         title: json["title"],
-        description: json["description"] == null ? null : json["description"],
+        description: json["description"] == null ? '' : json["description"],
         resourceUri: json["resourceURI"],
         urls: List<MarvelUrl>.from(
             json["urls"].map((x) => MarvelUrl.fromJson(x))),
@@ -68,7 +68,7 @@ class Serie {
   Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
-        "description": description == null ? null : description,
+        "description": description == null ? '' : description,
         "resourceURI": resourceUri,
         "urls": List<dynamic>.from(urls.map((x) => x.toJson())),
         "startYear": startYear,

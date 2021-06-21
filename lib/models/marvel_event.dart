@@ -1,8 +1,8 @@
 import 'package:actividad_05/models/marvel_url.dart';
 import 'package:actividad_05/models/thumbnail.dart';
 
-class Event {
-  Event({
+class MarvelEvent {
+  MarvelEvent({
     this.id,
     this.title,
     this.description,
@@ -38,10 +38,10 @@ class Event {
   // Next next;
   // Next previous;
 
-  factory Event.fromJson(Map<String, dynamic> json) => Event(
+  factory MarvelEvent.fromJson(Map<String, dynamic> json) => MarvelEvent(
         id: json["id"],
         title: json["title"],
-        description: json["description"],
+        description: json["description"] == null ? '' : json["description"],
         resourceUri: json["resourceURI"],
         urls: List<MarvelUrl>.from(
             json["urls"].map((x) => MarvelUrl.fromJson(x))),
@@ -61,7 +61,7 @@ class Event {
   Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
-        "description": description,
+        "description": description == null ? '' : description,
         "resourceURI": resourceUri,
         "urls": List<dynamic>.from(urls.map((x) => x.toJson())),
         "modified": modified,

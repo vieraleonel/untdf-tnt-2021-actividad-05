@@ -4,10 +4,12 @@ import 'package:actividad_05/widgets/thumb_hero.dart';
 import 'package:flutter/material.dart';
 
 class LabeledImageList extends StatelessWidget {
-  const LabeledImageList({Key key, this.label, this.thumbs}) : super(key: key);
+  const LabeledImageList({Key key, this.label, this.thumbs, this.onTap})
+      : super(key: key);
 
   final String label;
   final List<Thumbnail> thumbs;
+  final Function onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,9 @@ class LabeledImageList extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: thumbs.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return ThumbHero(thumb: thumbs[index]);
+                  return GestureDetector(
+                      onTap: onTap(index),
+                      child: ThumbHero(thumb: thumbs[index]));
                 }))
       ],
     );

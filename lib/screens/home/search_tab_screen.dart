@@ -1,5 +1,5 @@
 import 'package:actividad_05/models/character.dart';
-import 'package:actividad_05/models/comics.dart';
+import 'package:actividad_05/models/comic.dart';
 import 'package:actividad_05/models/marvel_response.dart';
 import 'package:actividad_05/models/thumbnail.dart';
 import 'package:actividad_05/services/marvel_api_service.dart';
@@ -82,6 +82,7 @@ class _SearchTabScreenState extends State<SearchTabScreen> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return LabeledImageList(
+                  onTap: (index) => () => {},
                   label: "Characters found",
                   thumbs: snapshot.data.data.results
                       .map<Thumbnail>((item) => item.thumbnail)
@@ -101,6 +102,7 @@ class _SearchTabScreenState extends State<SearchTabScreen> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return LabeledImageList(
+                  onTap: (index) => () => {},
                   label: "Comics found",
                   thumbs: snapshot.data.data.results
                       .map<Thumbnail>((item) => item.thumbnail)

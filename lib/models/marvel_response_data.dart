@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:actividad_05/models/character.dart';
-import 'package:actividad_05/models/comics.dart';
+import 'package:actividad_05/models/comic.dart';
 import 'package:actividad_05/models/creator.dart';
-import 'package:actividad_05/models/event.dart';
+import 'package:actividad_05/models/marvel_event.dart';
 import 'package:actividad_05/models/serie.dart';
 
 class MarvelResponseData<T> {
@@ -39,8 +39,8 @@ class MarvelResponseData<T> {
             return Serie.fromJson(item);
           } else if (T == Comic) {
             return Comic.fromJson(item);
-          } else if (T == Event) {
-            return Event.fromJson(item);
+          } else if (T == MarvelEvent) {
+            return MarvelEvent.fromJson(item);
           } else if (T == Creator) {
             return Creator.fromJson(item);
           } else {
@@ -61,8 +61,8 @@ class MarvelResponseData<T> {
             return (item as Serie).toJson();
           } else if (T == Comic) {
             return (item as Comic).toJson();
-          } else if (T == Event) {
-            return (item as Event).toJson();
+          } else if (T == MarvelEvent) {
+            return (item as MarvelEvent).toJson();
           } else if (T == Creator) {
             return (item as Creator).toJson();
           } else {

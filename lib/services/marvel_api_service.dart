@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:actividad_05/contants.dart';
 import 'package:actividad_05/models/character.dart';
-import 'package:actividad_05/models/comics.dart';
+import 'package:actividad_05/models/comic.dart';
 import 'package:actividad_05/models/creator.dart';
-import 'package:actividad_05/models/event.dart';
+import 'package:actividad_05/models/marvel_event.dart';
 import 'package:actividad_05/models/marvel_response.dart';
 import 'package:actividad_05/models/serie.dart';
 import 'package:http/http.dart' as http;
@@ -39,10 +39,40 @@ class MarvelApiService {
     return uri;
   }
 
+  //
+  // CHARACTERS
+  //
+
   Future<MarvelResponse<Character>> getAllCharacters(
           {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
       http.get(_buildUri('/characters', queryParams: queryParams)).then(
           (response) => MarvelResponse<Character>.fromRawJson(response.body));
+
+  Future<MarvelResponse<Serie>> getCharacterSeries(int characterId,
+          {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
+      http
+          .get(_buildUri('/characters/$characterId/series',
+              queryParams: queryParams))
+          .then((response) => MarvelResponse<Serie>.fromRawJson(response.body));
+
+  Future<MarvelResponse<Comic>> getCharacterComics(int characterId,
+          {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
+      http
+          .get(_buildUri('/characters/$characterId/comics',
+              queryParams: queryParams))
+          .then((response) => MarvelResponse<Comic>.fromRawJson(response.body));
+
+  Future<MarvelResponse<MarvelEvent>> getCharacterEvents(int characterId,
+          {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
+      http
+          .get(_buildUri('/characters/$characterId/events',
+              queryParams: queryParams))
+          .then((response) =>
+              MarvelResponse<MarvelEvent>.fromRawJson(response.body));
+
+  //
+  // Series
+  //
 
   Future<MarvelResponse<Serie>> getAllSeries(
           {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
@@ -50,20 +80,130 @@ class MarvelApiService {
           .get(_buildUri('/series', queryParams: queryParams))
           .then((response) => MarvelResponse<Serie>.fromRawJson(response.body));
 
+  Future<MarvelResponse<Character>> getSerieCharactes(int serieId,
+          {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
+      http
+          .get(_buildUri('/series/$serieId/characters',
+              queryParams: queryParams))
+          .then((response) =>
+              MarvelResponse<Character>.fromRawJson(response.body));
+
+  Future<MarvelResponse<Comic>> getSerieComics(int serieId,
+          {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
+      http
+          .get(_buildUri('/series/$serieId/comics', queryParams: queryParams))
+          .then((response) => MarvelResponse<Comic>.fromRawJson(response.body));
+
+  Future<MarvelResponse<MarvelEvent>> getSerieEvents(int serieId,
+          {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
+      http
+          .get(_buildUri('/series/$serieId/events', queryParams: queryParams))
+          .then((response) =>
+              MarvelResponse<MarvelEvent>.fromRawJson(response.body));
+
+  Future<MarvelResponse<Creator>> getSerieCreators(int serieId,
+          {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
+      http
+          .get(_buildUri('/series/$serieId/creators', queryParams: queryParams))
+          .then(
+              (response) => MarvelResponse<Creator>.fromRawJson(response.body));
+
+  //
+  // Comics
+  //
+
   Future<MarvelResponse<Comic>> getAllComics(
           {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
       http
           .get(_buildUri('/comics', queryParams: queryParams))
           .then((response) => MarvelResponse<Comic>.fromRawJson(response.body));
 
-  Future<MarvelResponse<Event>> getAllEvents(
+  Future<MarvelResponse<Character>> getComicCharactes(int comicId,
           {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
       http
-          .get(_buildUri('/events', queryParams: queryParams))
-          .then((response) => MarvelResponse<Event>.fromRawJson(response.body));
+          .get(_buildUri('/comics/$comicId/characters',
+              queryParams: queryParams))
+          .then((response) =>
+              MarvelResponse<Character>.fromRawJson(response.body));
+
+  Future<MarvelResponse<MarvelEvent>> getComicEvents(int comicId,
+          {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
+      http
+          .get(_buildUri('/comics/$comicId/events', queryParams: queryParams))
+          .then((response) =>
+              MarvelResponse<MarvelEvent>.fromRawJson(response.body));
+
+  Future<MarvelResponse<Creator>> getComicCreators(int comicId,
+          {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
+      http
+          .get(_buildUri('/comics/$comicId/creators', queryParams: queryParams))
+          .then(
+              (response) => MarvelResponse<Creator>.fromRawJson(response.body));
+
+  //
+  // Events
+  //
+
+  Future<MarvelResponse<MarvelEvent>> getAllEvents(
+          {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
+      http.get(_buildUri('/events', queryParams: queryParams)).then(
+          (response) => MarvelResponse<MarvelEvent>.fromRawJson(response.body));
+
+  Future<MarvelResponse<Character>> getEventCharactes(int eventId,
+          {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
+      http
+          .get(_buildUri('/events/$eventId/characters',
+              queryParams: queryParams))
+          .then((response) =>
+              MarvelResponse<Character>.fromRawJson(response.body));
+
+  Future<MarvelResponse<Comic>> getEventComics(int eventId,
+          {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
+      http
+          .get(_buildUri('/events/$eventId/comics', queryParams: queryParams))
+          .then((response) => MarvelResponse<Comic>.fromRawJson(response.body));
+
+  Future<MarvelResponse<Serie>> getEventSeries(int eventId,
+          {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
+      http
+          .get(_buildUri('/events/$eventId/series', queryParams: queryParams))
+          .then((response) => MarvelResponse<Serie>.fromRawJson(response.body));
+
+  Future<MarvelResponse<Creator>> getEventCreators(int eventId,
+          {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
+      http
+          .get(_buildUri('/events/$eventId/creators', queryParams: queryParams))
+          .then(
+              (response) => MarvelResponse<Creator>.fromRawJson(response.body));
+
+  //
+  // Creators
+  //
 
   Future<MarvelResponse<Creator>> getAllCreators(
           {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
       http.get(_buildUri('/creators', queryParams: queryParams)).then(
           (response) => MarvelResponse<Creator>.fromRawJson(response.body));
+
+  Future<MarvelResponse<Serie>> getCreatorSeries(int creatorId,
+          {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
+      http
+          .get(_buildUri('/creators/$creatorId/series',
+              queryParams: queryParams))
+          .then((response) => MarvelResponse<Serie>.fromRawJson(response.body));
+
+  Future<MarvelResponse<Comic>> getCreatorComics(int creatorId,
+          {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
+      http
+          .get(_buildUri('/creators/$creatorId/comics',
+              queryParams: queryParams))
+          .then((response) => MarvelResponse<Comic>.fromRawJson(response.body));
+
+  Future<MarvelResponse<MarvelEvent>> getCreatorEvents(int creatorId,
+          {Map<String, String> queryParams: const {"orderBy": "-modified"}}) =>
+      http
+          .get(_buildUri('/creators/$creatorId/events',
+              queryParams: queryParams))
+          .then((response) =>
+              MarvelResponse<MarvelEvent>.fromRawJson(response.body));
 }
