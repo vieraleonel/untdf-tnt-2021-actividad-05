@@ -1,6 +1,7 @@
 import 'package:actividad_05/models/character.dart';
 import 'package:actividad_05/models/thumbnail.dart';
 import 'package:actividad_05/screens/character_detail/character_releated_content.dart';
+import 'package:actividad_05/services/favourites_service.dart';
 import 'package:actividad_05/services/marvel_api_service.dart';
 import 'package:actividad_05/widgets/attribution.dart';
 import 'package:actividad_05/widgets/detail_hero_with_back_btn.dart';
@@ -18,6 +19,31 @@ class CharacterDetailScreen extends StatefulWidget {
 
 class _CharacterDetailScreenState extends State<CharacterDetailScreen> {
   List<dynamic> favouritedCharacterIds = [];
+  List<int> favouritedCharacterIdsSqlite = [];
+
+  toggleFavouriteSqlite(Character character) => () async {
+        setState(() {
+          if (favouritedCharacterIdsSqlite.indexOf(character.id) >= 0) {
+            favouritedCharacterIdsSqlite.remove(character.id);
+            FavouritesService().deleteCharacter(character);
+          } else {
+            favouritedCharacterIdsSqlite.add(character.id);
+            FavouritesService().insertCharacter(character);
+          }
+        });
+      };
+
+  getFavouriteCharactersSqlite() async {
+    try {
+      List<int> favCharIds = await FavouritesService().getFavouriteCharacters();
+      print("getFavouriteCharactersSqlite ${favCharIds.toString()}");
+      setState(() {
+        favouritedCharacterIdsSqlite = favCharIds;
+      });
+    } catch (e) {
+      print('getFavouriteCharactersSqlite $e');
+    }
+  }
 
   toggleFavourite(int characterId) => () async {
         setState(() {
@@ -73,6 +99,7 @@ class _CharacterDetailScreenState extends State<CharacterDetailScreen> {
   void initState() {
     super.initState();
     getFavouriteCharacters();
+    getFavouriteCharactersSqlite();
   }
 
   @override
@@ -95,6 +122,17 @@ class _CharacterDetailScreenState extends State<CharacterDetailScreen> {
                         0)
                     ? Icon(Icons.favorite)
                     : Icon(Icons.favorite_outline),
+                iconSize: 40.0,
+                color: Colors.black,
+              ),
+              IconButton(
+                onPressed:
+                    toggleFavouriteSqlite(character != null ? character : null),
+                icon: (favouritedCharacterIdsSqlite
+                            .indexOf(character != null ? character.id : 0) >=
+                        0)
+                    ? Icon(Icons.star)
+                    : Icon(Icons.star_outline),
                 iconSize: 40.0,
                 color: Colors.black,
               ),

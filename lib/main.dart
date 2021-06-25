@@ -1,8 +1,11 @@
 import 'package:actividad_05/routes.dart';
+import 'package:actividad_05/services/db_service.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await getDatabase();
   runApp(MyApp());
 }
 

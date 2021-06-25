@@ -35,7 +35,6 @@ class MarvelApiService {
     }
     Uri uri =
         Uri.https(MARVEL_API_BASE, MARVEL_API_VERSION + path, baseQryParams);
-    print(uri.toString());
     return uri;
   }
 
