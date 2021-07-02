@@ -1,10 +1,17 @@
+import 'package:actividad_05/bloc/search_results_bloc.dart';
+import 'package:actividad_05/bloc/search_results_cubit.dart';
+import 'package:actividad_05/bloc/search_results_events.dart';
 import 'package:actividad_05/screens/home/anime_tab_screen.dart';
 import 'package:actividad_05/screens/home/favs_tab_screen.dart';
 import 'package:actividad_05/screens/home/home_tab_screen.dart';
+import 'package:actividad_05/screens/home/search_tab_cubit_screen.dart';
 import 'package:actividad_05/screens/home/search_tab_screen.dart';
+import 'package:actividad_05/screens/home/search_tab_bloc_screen.dart';
+import 'package:actividad_05/services/marvel_api_service.dart';
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
@@ -44,7 +51,17 @@ class _HomeScreenState extends State<HomeScreen> {
         return AnimeTabScreen();
         break;
       case 2:
-        return SearchTabScreen();
+        //return SearchTabScreen();
+
+        // return BlocProvider(
+        //     create: (BuildContext context) =>
+        //         SearchResultsBloc(marvelApiService: MarvelApiService()),
+        //     child: SearchTabBlocScreen());
+
+        return BlocProvider(
+            create: (BuildContext context) =>
+                SearchResultsCubit(marvelApiService: MarvelApiService()),
+            child: SearchTabCubitScreen());
         break;
       case 3:
         return FavsTabScreen();
