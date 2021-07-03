@@ -139,13 +139,48 @@ class _SearchTabScreenState extends State<SearchTabScreen> {
                   itemCount: media.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                        onTap: () {},
-                        child: Text(media[index]['title']['userPreferred']));
+                        onTap: () {}, child: AnimeCard(media: media[index]));
                   }),
             );
           },
         )
       ],
     );
+  }
+}
+
+class AnimeCard extends StatelessWidget {
+  const AnimeCard({
+    Key key,
+    @required this.media,
+  }) : super(key: key);
+
+  final dynamic media;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(mainAxisSize: MainAxisSize.max, children: [
+      Container(
+        width: thumbnailSizeDimensions[ThumbnailSize.PORTRAIT_MEDIUM].width,
+        height: thumbnailSizeDimensions[ThumbnailSize.PORTRAIT_MEDIUM].height,
+        margin: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black54,
+              blurRadius: 6,
+              offset: Offset(0, 4),
+            ),
+          ],
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: NetworkImage(media['coverImage']['large']),
+          ),
+        ),
+      ),
+      Text(media['title']['userPreferred'] + ' @@@@ '),
+    ]);
   }
 }

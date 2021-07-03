@@ -1,4 +1,4 @@
-import 'package:actividad_05/models/character.dart';
+import 'package:actividad_05/screens/anime_detail_screen.dart';
 import 'package:actividad_05/screens/character_detail/character_detail_screen.dart';
 import 'package:actividad_05/screens/comic_detail.dart';
 import 'package:actividad_05/screens/creator_detail.dart';
@@ -14,6 +14,7 @@ const Map<String, String> ROUTE_NAMES = {
   'COMIC_DETAIL': 'Comic Details',
   'EVENT_DETAIL': 'Event Details',
   'CREATOR_DETAIL': 'Creator Details',
+  'ANIME_DETAIL': 'Anime Details',
 };
 
 final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
@@ -25,4 +26,5 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   ROUTE_NAMES['EVENT_DETAIL']: (BuildContext context) => EventDetailScreen(),
   ROUTE_NAMES['CREATOR_DETAIL']: (BuildContext context) =>
       CreatorDetailScreen(),
+  ROUTE_NAMES['ANIME_DETAIL']: (BuildContext context) => AnimeDetailScreen(),
 };
