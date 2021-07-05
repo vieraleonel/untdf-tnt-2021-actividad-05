@@ -8,6 +8,7 @@ import 'package:actividad_05/models/marvel_response.dart';
 import 'package:actividad_05/models/thumbnail.dart';
 import 'package:actividad_05/services/marvel_api_service.dart';
 import 'package:actividad_05/widgets/labeled_image_list.dart';
+import 'package:actividad_05/widgets/text_with_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -33,36 +34,8 @@ class _SearchTabCubitScreenState extends State<SearchTabCubitScreen> {
             userPreferred
           }
           coverImage {
-            extraLarge
             large
-            color
           }
-          startDate {
-            year
-            month
-            day
-          }
-          endDate {
-            year
-            month
-            day
-          }
-          bannerImage
-          season
-          status(version: 2)
-          episodes
-          # genres
-          averageScore
-          popularity
-          studios(isMain: true) {
-            edges {
-              isMain
-              node {
-                id
-                name
-              }
-            }
-          }     
         }
       }
     }
@@ -77,9 +50,16 @@ class _SearchTabCubitScreenState extends State<SearchTabCubitScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
       children: [
-        TextField(onChanged: _onChangeSearchText),
+        Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.blueGrey[50],
+            ),
+            margin: EdgeInsets.all(10),
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: TextField(onChanged: _onChangeSearchText)),
         BlocBuilder<SearchResultsCubit, SearchResultsState>(
           builder: (context, state) {
             if (state is SearchResultsIntialState) {
@@ -138,18 +118,27 @@ class _SearchTabCubitScreenState extends State<SearchTabCubitScreen> {
 
             List<dynamic> media = result.data['animeSearch']['media'];
 
-            return Container(
-              height: 200,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: media.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                        onTap: () {}, child: AnimeCard(media: media[index]));
-                  }),
+            return Column(
+              children: [
+                TextWithIcon(label: 'Animes found'),
+                Container(
+                  height: 200,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: media.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                            onTap: () {},
+                            child: AnimeCard(media: media[index]));
+                      }),
+                ),
+              ],
             );
           },
-        )
+        ),
+        SizedBox(
+          height: 30,
+        ),
       ],
     );
   }
@@ -166,34 +155,23 @@ class AnimeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 100,
-      height: 150,
-      child: Column(children: [
-        Container(
-          width: 100,
-          height: 150,
-          margin: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black54,
-                blurRadius: 6,
-                offset: Offset(0, 4),
-              ),
-            ],
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: NetworkImage(media['coverImage']['large']),
-            ),
+      width: thumbnailSizeDimensions[ThumbnailSize.PORTRAIT_MEDIUM].width,
+      margin: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black54,
+            blurRadius: 6,
+            offset: Offset(0, 4),
           ),
+        ],
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: NetworkImage(media['coverImage']['large']),
         ),
-        Text(
-          media['title']['userPreferred'],
-          overflow: TextOverflow.ellipsis,
-        ),
-      ]),
+      ),
     );
   }
 }

@@ -70,102 +70,59 @@ class AnimeTabScreen extends StatelessWidget {
           }
 
           //trending, season, nextSeason, popular, top
-          dynamic media = result.data['trending']['media'];
           return ListView(
             children: [
-              TextWithIcon(label: "Trending now"),
-              Container(
-                height: 240,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: result.data['trending']['media'].length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, ROUTE_NAMES['ANIME_DETAIL'],
-                                arguments: result.data['trending']['media']
-                                    [index]);
-                          },
-                          child: AnimeCard(
-                              media: result.data['trending']['media'][index]));
-                    }),
-              ),
-              TextWithIcon(label: "Popular this season"),
-              Container(
-                height: 240,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: result.data['season']['media'].length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, ROUTE_NAMES['ANIME_DETAIL'],
-                                arguments: result.data['season']['media']
-                                    [index]);
-                          },
-                          child: AnimeCard(
-                              media: result.data['season']['media'][index]));
-                    }),
-              ),
-              TextWithIcon(label: "Upcoming next season"),
-              Container(
-                height: 240,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: result.data['nextSeason']['media'].length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, ROUTE_NAMES['ANIME_DETAIL'],
-                                arguments: result.data['nextSeason']['media']
-                                    [index]);
-                          },
-                          child: AnimeCard(
-                              media: result.data['nextSeason']['media']
-                                  [index]));
-                    }),
-              ),
-              TextWithIcon(label: "All time popular"),
-              Container(
-                height: 240,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: result.data['popular']['media'].length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, ROUTE_NAMES['ANIME_DETAIL'],
-                                arguments: result.data['popular']['media']
-                                    [index]);
-                          },
-                          child: AnimeCard(
-                              media: result.data['popular']['media'][index]));
-                    }),
-              ),
-              TextWithIcon(label: "Top"),
-              Container(
-                height: 240,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: result.data['top']['media'].length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, ROUTE_NAMES['ANIME_DETAIL'],
-                                arguments: result.data['top']['media'][index]);
-                          },
-                          child: AnimeCard(
-                              media: result.data['top']['media'][index]));
-                    }),
-              )
+              AnimeCardList(
+                  label: "Trending NOW",
+                  media: result.data['trending']['media']),
+              AnimeCardList(
+                  label: "Popular this season",
+                  media: result.data['season']['media']),
+              AnimeCardList(
+                  label: "Upcoming next season",
+                  media: result.data['nextSeason']['media']),
+              AnimeCardList(
+                  label: "All time popular",
+                  media: result.data['popular']['media']),
+              AnimeCardList(label: "Top", media: result.data['top']['media']),
+              SizedBox(height: 30),
             ],
           );
         });
+  }
+}
+
+class AnimeCardList extends StatelessWidget {
+  const AnimeCardList({
+    Key key,
+    this.label,
+    this.media,
+  }) : super(key: key);
+
+  final String label;
+  final List<dynamic> media;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        TextWithIcon(label: label),
+        Container(
+          height: 240,
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: media.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, ROUTE_NAMES['ANIME_DETAIL'],
+                          arguments: media[index]);
+                    },
+                    child: AnimeCard(media: media[index]));
+              }),
+        ),
+      ],
+    );
   }
 }
 
