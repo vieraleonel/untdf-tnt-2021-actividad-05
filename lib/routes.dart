@@ -5,26 +5,27 @@ import 'package:actividad_05/screens/creator_detail.dart';
 import 'package:actividad_05/screens/event_detail.dart';
 import 'package:actividad_05/screens/home/home_screen.dart';
 import 'package:actividad_05/screens/serie_detail.dart';
-import 'package:flutter/widgets.dart';
+import 'package:get/route_manager.dart';
 
 const Map<String, String> ROUTE_NAMES = {
-  'HOME': 'Home',
-  'CHARACTER_DETAIL': 'Character Details',
-  'SERIE_DETAIL': 'Serie Details',
-  'COMIC_DETAIL': 'Comic Details',
-  'EVENT_DETAIL': 'Event Details',
-  'CREATOR_DETAIL': 'Creator Details',
-  'ANIME_DETAIL': 'Anime Details',
+  'HOME': '/home',
+  'CHARACTER_DETAIL': '/character-details',
+  'SERIE_DETAIL': '/serie-details',
+  'COMIC_DETAIL': '/comic-details',
+  'EVENT_DETAIL': '/event-details',
+  'CREATOR_DETAIL': '/creator-details',
+  'ANIME_DETAIL': '/anime-details',
 };
 
-final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
-  ROUTE_NAMES['HOME']: (BuildContext context) => HomeScreen(),
-  ROUTE_NAMES['CHARACTER_DETAIL']: (BuildContext context) =>
-      CharacterDetailScreen(),
-  ROUTE_NAMES['SERIE_DETAIL']: (BuildContext context) => SerieDetailScreen(),
-  ROUTE_NAMES['COMIC_DETAIL']: (BuildContext context) => ComicDetailScreen(),
-  ROUTE_NAMES['EVENT_DETAIL']: (BuildContext context) => EventDetailScreen(),
-  ROUTE_NAMES['CREATOR_DETAIL']: (BuildContext context) =>
-      CreatorDetailScreen(),
-  ROUTE_NAMES['ANIME_DETAIL']: (BuildContext context) => AnimeDetailScreen(),
-};
+final List<GetPage<dynamic>> routes = [
+  GetPage(name: ROUTE_NAMES['HOME'], page: () => HomeScreen()),
+  GetPage(
+      name: ROUTE_NAMES['CHARACTER_DETAIL'],
+      page: () => CharacterDetailScreen()),
+  GetPage(name: ROUTE_NAMES['SERIE_DETAIL'], page: () => SerieDetailScreen()),
+  GetPage(name: ROUTE_NAMES['COMIC_DETAIL'], page: () => ComicDetailScreen()),
+  GetPage(name: ROUTE_NAMES['EVENT_DETAIL'], page: () => EventDetailScreen()),
+  GetPage(
+      name: ROUTE_NAMES['CREATOR_DETAIL'], page: () => CreatorDetailScreen()),
+  GetPage(name: ROUTE_NAMES['ANIME_DETAIL'], page: () => AnimeDetailScreen()),
+];

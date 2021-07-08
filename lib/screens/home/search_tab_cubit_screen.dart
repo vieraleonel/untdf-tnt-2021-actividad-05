@@ -2,6 +2,7 @@ import 'package:actividad_05/bloc/search_results_bloc.dart';
 import 'package:actividad_05/bloc/search_results_cubit.dart';
 import 'package:actividad_05/bloc/search_results_events.dart';
 import 'package:actividad_05/bloc/search_results_state.dart';
+import 'package:actividad_05/controllers/SearchController.dart';
 import 'package:actividad_05/models/character.dart';
 import 'package:actividad_05/models/comic.dart';
 import 'package:actividad_05/models/marvel_response.dart';
@@ -11,6 +12,8 @@ import 'package:actividad_05/widgets/labeled_image_list.dart';
 import 'package:actividad_05/widgets/text_with_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class SearchTabCubitScreen extends StatefulWidget {
@@ -41,15 +44,17 @@ class _SearchTabCubitScreenState extends State<SearchTabCubitScreen> {
     }
   """;
 
-  _onChangeSearchText(newText) {
-    context.read<SearchResultsCubit>().searchCharactersByName(newText);
-    setState(() {
-      searchText = newText;
-    });
-  }
+  _onChangeSearchText(controller) => (newText) {
+        context.read<SearchResultsCubit>().searchCharactersByName(newText);
+        setState(() {
+          searchText = newText;
+        });
+      };
 
   @override
   Widget build(BuildContext context) {
+    final searchController = Get.put(SearchController());
+
     return ListView(
       children: [
         Container(
@@ -59,7 +64,15 @@ class _SearchTabCubitScreenState extends State<SearchTabCubitScreen> {
             ),
             margin: EdgeInsets.all(10),
             padding: EdgeInsets.symmetric(horizontal: 10),
-            child: TextField(onChanged: _onChangeSearchText)),
+            child: TextField(onChanged: (newText) {
+              searchController.changeSearchText(newText);
+              context
+                  .read<SearchResultsCubit>()
+                  .searchCharactersByName(newText);
+              setState(() {
+                searchText = newText;
+              });
+            })),
         BlocBuilder<SearchResultsCubit, SearchResultsState>(
           builder: (context, state) {
             if (state is SearchResultsIntialState) {
@@ -80,26 +93,27 @@ class _SearchTabCubitScreenState extends State<SearchTabCubitScreen> {
             }
           },
         ),
-        FutureBuilder<MarvelResponse<Comic>>(
-          future: MarvelApiService().getAllComics(queryParams: {
-            "orderBy": "-modified",
-            "titleStartsWith": searchText
-          }),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return LabeledImageList(
-                  onTap: (index) => () => {},
-                  label: "Comics found",
-                  thumbs: snapshot.data.data.results
-                      .map<Thumbnail>((item) => item.thumbnail)
-                      .toList());
-            } else if (snapshot.hasError) {
-              return Text('ERROR');
-            } else {
-              return Text('Cargando...');
-            }
-          },
-        ),
+        Obx(() => Text(searchController.searchText.string)),
+        // FutureBuilder<MarvelResponse<Comic>>(
+        //   future: MarvelApiService().getAllComics(queryParams: {
+        //     "orderBy": "-modified",
+        //     "titleStartsWith": searchText
+        //   }),
+        //   builder: (context, snapshot) {
+        //     if (snapshot.hasData) {
+        //       return LabeledImageList(
+        //           onTap: (index) => () => {},
+        //           label: "Comics found",
+        //           thumbs: snapshot.data.data.results
+        //               .map<Thumbnail>((item) => item.thumbnail)
+        //               .toList());
+        //     } else if (snapshot.hasError) {
+        //       return Text('ERROR');
+        //     } else {
+        //       return Text('Cargando...');
+        //     }
+        //   },
+        // ),
         Query(
           options: QueryOptions(
               document: gql(sdlAnimeSearchByText),
