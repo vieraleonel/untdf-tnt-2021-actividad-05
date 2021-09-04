@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
@@ -367,7 +368,12 @@ class _AnimeDetailScreenState extends State<AnimeDetailScreen> {
                         color: Colors.black,
                       ),
                       IconButton(
-                        onPressed: () => print('Share'),
+                        onPressed: () {
+                          String animeName = anime['title']['userPreferred'];
+                          Share.share(
+                            "Checkout this anime $animeName",
+                          );
+                        },
                         icon: Icon(Icons.share),
                         iconSize: 35.0,
                         color: Colors.black,
